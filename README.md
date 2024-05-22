@@ -7,13 +7,15 @@ For more detail, please refer to https://wiki.videolan.org/Win32Compile/.
 The source code came from http://download.videolan.org/pub/videolan/vlc/2.2.8/vlc-2.2.8.tar.xz.
 
 ## The 3rd party libraries (External packages)
-The external packages were manually downloaded from https://download.videolan.org/contrib/.<br/>
-Those packages are located in the `vlc-2.2.0-git/tarballs` path.<br/>
-*Please note that the following some external packages are chosen from one among several possible URLs:*
-- contrib/src/x264<br/>
-  x264-git.tar.bz2: https://download.videolan.org/x264/snapshots/x264-snapshot-20140614-2245-stable.tar.bz2
+Most of external packages were manually downloaded from https://download.videolan.org/contrib/.<br/>
+All the external packages are located in the `vlc-2.2.0-git/tarballs` path.<br/>
 
-<br/>
+*Please note that the `qt-4.8.5.tar.gz` package was split into several files due (`qt-4.8.5.tar.gz.00*`) to the limitation of the large file at GitHub.<br/>
+So, when following the **[Manually built (slow)](#manually-built-slow)** step,  you have to run the following shell script file to merge them to the `qt-4.8.5.tar.gz` file:*
+```
+$ cd vlc-2.2.8/contrib/tarballs
+$ cd ./qt-4.8.5-merge.sh
+```
 
 ## Compiler and binary toolchain
 ### Mingw-w64
