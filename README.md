@@ -1,5 +1,5 @@
 # vlc-2.2.8-win-build
-This project provides a method to build the vlc 2.2.8 for Windows.<br/>
+This project provides a method to build the vlc 2.2.8 for Windows on Ubuntu 16.04.<br/>
 Also, it provides the `Dockerfile` as well.<br/>
 For more detail, please refer to https://wiki.videolan.org/Win32Compile/.
 
@@ -8,10 +8,10 @@ The source code came from http://download.videolan.org/pub/videolan/vlc/2.2.8/vl
 
 ## The 3rd party libraries (External packages)
 Most of external packages were manually downloaded from https://download.videolan.org/contrib/.<br/>
-All the external packages are located in the `vlc-2.2.0-git/tarballs` path.<br/>
+All the external packages are located in the `vlc-2.2.8/tarballs` path.<br/>
 
-*Please note that the `qt-4.8.5.tar.gz` package was split into several files due (`qt-4.8.5.tar.gz.00*`) to the limitation of the large file at GitHub.<br/>
-So, when following the **[Manually built (slow)](#manually-built-slow)** step,  you have to run the following shell script file to merge them to the `qt-4.8.5.tar.gz` file:*
+*Please note that the `qt-4.8.5.tar.gz` package was split into several files (`qt-4.8.5.tar.gz.00*`) due to the limitation of the large file at GitHub.<br/>
+So, when following the **[Manually built (slow)](#manually-built-slow)** step,  first of all , you SHOULD run the following shell script file to merge them to the `qt-4.8.5.tar.gz` file:*
 ```
 $ cd vlc-2.2.8/contrib/tarballs
 $ cd ./qt-4.8.5-merge.sh
@@ -22,7 +22,7 @@ $ cd ./qt-4.8.5-merge.sh
 To compile VLC for Windows (32-bits or 64-bits), the Mingw-w64 toolchain is required.<br/>
 For the 32-bit version, run this:
 ```
-$ sudo apt-get install gcc-mingw-w64-i686 g++-mingw-w64-i686 mingw-w64-tools
+$ sudo apt-get install gcc-mingw-w64-i686 g++-mingw-w64-i686
 ```
 
 For the 64-bit version, this becomes:
@@ -33,30 +33,13 @@ $ sudo apt-get install gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64 mingw-w64-tools
 ### Development tools
 Please install the following tools:
 ```
-$ sudo apt-get install lua5.2 libtool automake autoconf autopoint make gettext pkg-config
-$ sudo apt-get install qt4-dev-tools qt5-default git subversion cmake cvs
-$ sudo apt-get install wine64-development-tools zip p7zip nsis bzip2
-$ sudo apt-get install yasm ragel ant default-jdk protobuf-compiler dos2unix
-```
-Also, please install the following packages as well:
-```
-$ sudo apt-get install liblua5.2-dev libvorbis-dev libmad0-dev
-$ sudo apt-get install --allow-downgrades -y libavutil-ffmpeg54=7:2.8.6-1ubuntu2 libavutil-dev=7:2.8.6-1ubuntu2
-$ sudo apt-get install --allow-downgrades -y libswresample-ffmpeg1=7:2.8.6-1ubuntu2 libswresample-dev=7:2.8.6-1ubuntu2
-$ sudo apt-get install --allow-downgrades -y libavcodec-ffmpeg56=7:2.8.6-1ubuntu2 libavcodec-dev=7:2.8.6-1ubuntu2
-$ sudo apt-get install --allow-downgrades -y libavformat-ffmpeg56=7:2.8.6-1ubuntu2 libavformat-dev=7:2.8.6-1ubuntu2
-$ sudo apt-get install --allow-downgrades -y libswscale-ffmpeg3=7:2.8.6-1ubuntu2 libswscale-dev=7:2.8.6-1ubuntu2
-$ sudo apt-get install -y gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-libav \
-  gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-pulseaudio
-$ sudo apt install -y liba52-0.7.4-dev
-$ sudo apt install -y libxcb-shm0-dev libxcb-composite0-dev libxcb-xv0-dev
-$ sudo apt install -y libalsa-ocaml-dev libgcrypt11-dev
+$ sudo apt-get install autoconf libtool
 ```
 
 ## Prepare the 3rd party libraries (external packages)
 ### Prebuilt (fast)
 ```
-$ cd vlc-2.2.0-git
+$ cd vlc-2.2.8
 $ cd contrib/win32
 $ ../bootstrap --host=HOST-TRIPLET
 $ make prebuilt
@@ -65,7 +48,7 @@ Please make sure that you replace the keyword `HOST-TRIPLET` with either of the 
 * `i686-w64-mingw32` for Windows 32-bits, using the Mingw-w64 toolchain
 * `x86_64-w64-mingw32` for Windows 64-bits, using the Mingw-w64 toolchain
 
-Each prebuilt zip file for the target Windows version is located in the `vlc-2.2.0-git/contrib/win32` sub-folder.<br/>
+Each prebuilt zip file for the target Windows version is located in the `vlc-2.2.8/contrib/win32` sub-folder.<br/>
 Those prebuilt zip files follow as below:
 * **32-bit**<br/>
   zip file: `vlc-contrib-i686-w64-mingw32-latest.tar.bz2`<br/>
@@ -78,7 +61,7 @@ Those prebuilt zip files follow as below:
 Or, if you want to compile the 3rd party libraries yourself and are feeling adventurous and have lots of time to burn:
 ```
 $ sudo apt-get install subversion yasm cvs cmake ragel autopoint
-$ cd vlc-2.2.0-git
+$ cd vlc-2.2.8
 $ mkdir -p contrib/win32
 $ cd contrib/win32
 $ ../bootstrap --host=HOST-TRIPLET
@@ -93,7 +76,7 @@ $ rm -f ../i686-w64-mingw32/bin/moc ../i686-w64-mingw32/bin/uic ../i686-w64-ming
 ```
 
 ### Go Back
-Go back to the VLC source directory (`vlc-2.2.0-git`):
+Go back to the VLC source directory (`vlc-2.2.8`):
 ```
 $ cd -
 ```
@@ -116,3 +99,38 @@ Please create a subfolder:
 $ mkdir win32 && cd win32
 ```
 
+Execute the build configuration script:
+```
+$ ../extras/package/win32/configure.sh --host=HOST-TRIPLET --build=x86_64-pc-linux-gnu
+```
+
+Alternatively, you can run configure manually:
+```
+$ ../configure --host=HOST-TRIPLET --build=x86_64-pc-linux-gnu
+```
+See `../configure --help` for more information.
+
+## Building VLC
+Once configured, to build VLC, just run:
+```
+$ make
+```
+
+## Packaging VLC
+Once the compilation is done, you can build self-contained VLC packages with the following make rules:
+| Command                 | Description |
+| ----------------------- | ----------- |
+| make package-win-common | Creates a subdirectory named `vlc-x.x.x` with all the binaries. You can run VLC directly from this directory. |
+| make package-win-strip  | Same as above but will create 'stripped' binaries (that is, smallest size, unusable with a debugger). |
+| make package-win32-7zip | Same as above but will package the directory in a 7z file. |
+| make package-win32-zip  | Same as above but will package the directory in a zip file. |
+| make package-win32      | Same as above but will also create an auto-installer package. You must have `NSIS` installed in its default location for this to work. |
+
+**But, this projects supports ONLY `make package-win-common` rule.**<br/>
+
+## Test result
+The build instructions described here are *successfully* tested on the following environment:
+* Target App: `Windows 32-bit`
+* Host OS for building: `Ubuntu 16.04.7 LTS (64-bit)`
+
+***Well done—you're ready to use VLC!***
