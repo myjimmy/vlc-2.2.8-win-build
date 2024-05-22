@@ -1,0 +1,6 @@
+win32/*
+contrib/i686-w64-mingw32/*
+autom4te.cache/*
+Makefile
+config.mak
+config.h.in~
