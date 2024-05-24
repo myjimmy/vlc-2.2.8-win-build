@@ -1,0 +1,29 @@
+# Use Ubuntu 16.04 as the base image
+FROM ubuntu:16.04
+
+# Install dependencies and tools
+RUN apt-get update && apt-get install -y \
+    autoconf \
+    bzip2 \
+    g++-mingw-w64-i686 \
+    gcc-mingw-w64-i686 \
+    gettext \
+    libtool \
+    make \
+    pkg-config && \
+    apt-get clean
+
+# Set the working directory
+WORKDIR /vlc-build
+
+# Copy the vlc-2.2.8 source code
+COPY ../vlc-2.2.8 ./
+
+# Copy the build script to the container
+COPY ./docker/build-win32.sh /vlc-build/
+
+# Set the build script as the entrypoint
+ENTRYPOINT ["/vlc-build/build-win32.sh"]
+
+# Set the default command
+CMD ["bash"]
