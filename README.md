@@ -134,3 +134,90 @@ The build instructions described here are *successfully* tested on the following
 * Host OS for building: `Ubuntu 16.04.7 LTS (64-bit)`
 
 ***Well done—you're ready to use VLC!***
+
+## Using Docker
+### Build the vlc with Docker
+You can build and use the container as follows:<br/>
+1. Build the Docker Image:
+   ```
+   $ docker build -f ./docker/Dockerfile-win32 -t vlc-build-win32 .
+   ```
+2. Run the Docker Container:
+   ```
+   $ docker run --name vlc-container vlc-build-win32
+   ```
+3. Copy VLC Binaries to Host:<br/>
+   After the container has been executed, you can copy the VLC binaries from the container to your host machine.
+   ```
+   $ docker cp vlc-container:/vlc-build/win32/vlc-2.2.8 /path/to/local/directory
+   ```
+   for example:
+   ```
+   $ docker cp vlc-container:/vlc-build/win32/vlc-2.2.8 ../win32-app
+   ```
+
+If you encounter a problem when building the Docker image, please run the following command in the step 1:
+```
+$ docker build --progress=plain -f ./docker/Dockerfile-win32 -t vlc-build-win32 .
+```
+
+Also, for debugging, you can run the following command after creating the Docker image:
+```
+$ docker run -it --name vlc-container vlc-build-win32 /bin/bash
+```
+
+### Save/Load of Docker image
+You can save a Docker image to your local disk using the `docker save` command.<br/>
+This command exports your Docker image to a *tarball* file, which can then be stored, transferred, or backed up.
+
+#### Without compression
+Save:
+```
+$ docker save -o vlc-build-win32.tar vlc-build-win32:latest
+```
+Load:
+```
+$ docker load -i vlc-build-win32.tar
+```
+
+#### With compression
+Save:
+```
+$ docker save vlc-build-win32:latest | gzip > vlc-build-win32.tar.gz
+```
+Load:
+```
+$ zcat vlc-build-win32.tar.gz | docker load
+```
+or
+```
+$ gunzip -c vlc-build-win32.tar.gz | docker load
+```
+
+### Connecting to the Docker container exited by you
+#### Step 1: List Exited Containers
+First, you need to find the container ID or name of the exited container. You can list all containers, including the exited ones, using the following command:
+```
+$ docker ps -a
+```
+This command will display a list of all containers along with their status.<br/>
+Look for the container you want to restart by checking its status.
+
+#### Step 2: Restart the Exited Container
+Once you have identified the container ID or name, you can restart it using the `docker start` command.<br/>
+For example, if your container name is `vlc-container`, you would run:
+```
+$ docker start vlc-container
+```
+If you prefer to use the container ID, replace `vlc-container` with the container ID.
+
+#### Step 3: Attach to the Container
+After restarting the container, you can attach to it using `docker attach`:
+```
+$ docker attach vlc-container
+```
+This will connect your terminal to the container, allowing you to interact with it as if you were inside the container’s terminal.<br/>
+**Or, run a command in the container (e.g., open a bash shell):**
+```
+$ docker exec -it vlc-container /bin/bash
+```
