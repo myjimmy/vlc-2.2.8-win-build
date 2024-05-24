@@ -1,43 +1,37 @@
 # Use Ubuntu 16.04 as the base image
 FROM ubuntu:16.04
 
-# Set environment variables to define the GCC version and architecture
-ENV GCC_VERSION=7
-ENV ARCH=win32
-
 # Install dependencies and tools
 RUN apt-get update && apt-get install -y \
     autoconf \
-    automake \
-    autopoint \
-    cmake \
-    gettext \
-    git \
-    libtool \
-    lzip \
-    make \
-    pkg-config \
-    wget \
-    yasm \
-    gcc-mingw-w64-i686 \
+    bzip2 \
     g++-mingw-w64-i686 \
-    && apt-get clean
+    gcc-mingw-w64-i686 \
+    gettext \
+    libtool \
+    make \
+    pkg-config && \
+    apt-get clean
 
 # Set the working directory
 WORKDIR /vlc-build
 
-# Clone the VLC source code from the specific 2.2.8 git tag
-RUN git clone -b 2.2.8 --depth 1 https://github.com/videolan/vlc.git .
+# Copy the vlc-2.2.8 source code
+COPY vlc-2.2.8 ./
 
-# Install additional build dependencies for VLC
-RUN ./bootstrap
+# Prepare the 3rd party libraries
+RUN cd contrib/win32 && \
+    ../bootstrap --host=i686-w64-mingw32 && \
+    make prebuilt
 
 # Configure VLC for Windows 32-bit compilation
-RUN mkdir win32 && cd win32 && \
-    ../extras/package/win32/configure.sh --host=i686-w64-mingw32 --disable-lua
+RUN ./bootstrap && \
+    mkdir win32 && cd win32 && \
+    ../extras/package/win32/configure.sh --host=i686-w64-mingw32 --build=x86_64-pc-linux-gnu
 
 # Build VLC
-RUN cd win32 && make
+RUN cd win32 && \
+    make package-win-common
 
 # Set the default command
 CMD ["bash"]
