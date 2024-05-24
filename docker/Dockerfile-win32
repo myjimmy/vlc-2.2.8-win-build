@@ -17,21 +17,13 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /vlc-build
 
 # Copy the vlc-2.2.8 source code
-COPY vlc-2.2.8 ./
+COPY ../vlc-2.2.8 ./
 
-# Prepare the 3rd party libraries
-RUN cd contrib/win32 && \
-    ../bootstrap --host=i686-w64-mingw32 && \
-    make prebuilt
+# Copy the build script to the container
+COPY ./docker/build-win32.sh /vlc-build/
 
-# Configure VLC for Windows 32-bit compilation
-RUN ./bootstrap && \
-    mkdir win32 && cd win32 && \
-    ../extras/package/win32/configure.sh --host=i686-w64-mingw32 --build=x86_64-pc-linux-gnu
-
-# Build VLC
-RUN cd win32 && \
-    make package-win-common
+# Set the build script as the entrypoint
+ENTRYPOINT ["/vlc-build/build-win32.sh"]
 
 # Set the default command
 CMD ["bash"]
