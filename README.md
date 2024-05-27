@@ -223,7 +223,8 @@ $ docker exec -it vlc-container /bin/bash
 ```
 
 ### Downloading the Docker image from Docker Hub
-You can download the proper docker image from **[Docker Hub](https://hub.docker.com/)** to use if for building the vlc for Windows 32-bit.<br/>
+We built a docker image and pushed it to **[Docker Hub](https://hub.docker.com/)**.<br/>
+So, you can download the appropriate docker image from **[Docker Hub](https://hub.docker.com/)** to use if for building the vlc for Windows 32-bit.<br/>
 ```
 $ docker pull jimmy0519/vlc-build-win32:v1.0.0
 ```
