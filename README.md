@@ -228,4 +228,5 @@ So, you can download the appropriate docker image from **[Docker Hub](https://hu
 ```
 $ docker pull jimmy0519/vlc-build-win32:v1.0.0
 ```
-For more information, please refer to https://hub.docker.com/repository/docker/jimmy0519/vlc-build-win32/general.
+For more information, please refer to https://hub.docker.com/r/jimmy0519/vlc-build-win32.
+
