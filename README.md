@@ -226,6 +226,7 @@ $ docker exec -it vlc-container /bin/bash
 We built a docker image and pushed it to **[Docker Hub](https://hub.docker.com/)**.<br/>
 So, you can download the appropriate docker image from **[Docker Hub](https://hub.docker.com/)** to use if for building the vlc for Windows 32-bit.<br/>
 ```
-$ docker pull jimmy0519/vlc-build-win32:v1.0.0
+$ docker pull jimmy0519/vlc-build-win32
 ```
-For more information, please refer to https://hub.docker.com/repository/docker/jimmy0519/vlc-build-win32/general.
+For more information, please refer to https://hub.docker.com/r/jimmy0519/vlc-build-win32.
+
